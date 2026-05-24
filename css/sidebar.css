@@ -1,0 +1,109 @@
+/* ==================================================
+   css/sidebar.css  —  Stats Bar, Progress, Tombol
+   ================================================== */
+
+/* Session Selector */
+.session-selector {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 18px 16px;
+  box-shadow: var(--shadow);
+}
+.session-label {
+  font-size: 11px; font-weight: 800; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1.8px;
+  margin-bottom: 12px; text-align: center;
+}
+.session-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.session-btn {
+  padding: 9px 6px; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--muted);
+  border-radius: 12px; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  text-align: center;
+}
+.session-btn.active {
+  background: var(--grad-main); color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 16px rgba(99,102,241,0.3);
+}
+.session-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+/* Stats Bar */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.5s 0.1s ease both;
+}
+.stat { padding: 16px 8px; text-align: center; }
+.stat:not(:last-child) { border-right: 1px solid var(--border); }
+.stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; font-weight: 700;
+  color: var(--accent2); line-height: 1;
+}
+.stat-val.green { color: var(--correct); }
+.stat-val.red   { color: var(--wrong); }
+.stat-val.muted { color: var(--muted); }
+.stat-label {
+  font-size: 9px; color: var(--muted); margin-top: 5px;
+  text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
+}
+
+/* Progress Bar */
+.progress-wrap {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 14px 16px;
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.5s 0.15s ease both;
+}
+.progress-label {
+  display: flex; justify-content: space-between;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  margin-bottom: 8px;
+}
+.progress-track {
+  height: 8px; background: var(--surface);
+  border-radius: 999px; overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--grad-main);
+  transition: width 0.45s ease;
+  border-radius: 999px;
+}
+
+/* Tombol */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 22px; border-radius: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 14px;
+  cursor: pointer; border: none; transition: all 0.2s ease;
+}
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+.btn-primary {
+  background: var(--grad-main); color: #fff;
+  box-shadow: 0 8px 24px rgba(99,102,241,0.25);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px); box-shadow: 0 14px 36px rgba(99,102,241,0.35);
+}
+.btn-secondary {
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover:not(:disabled) {
+  transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+}
+.btn-warning {
+  background: linear-gradient(135deg, #f59e0b, #f97316); color: #fff;
+  box-shadow: 0 8px 24px rgba(245,158,11,0.25);
+}
+.btn-warning:hover:not(:disabled) {
+  transform: translateY(-2px); box-shadow: 0 14px 36px rgba(245,158,11,0.32);
+}

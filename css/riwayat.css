@@ -1,0 +1,306 @@
+/* ==================================================
+   css/riwayat.css  —  Halaman Riwayat Pengerjaan
+   ================================================== */
+
+/* ── Floating nav kanan atas ─────────────────────── */
+#top-nav-bar {
+  position: fixed; top: 16px; right: 16px; z-index: 999999;
+  display: flex; gap: 8px;
+  animation: fadeIn 0.3s ease both;
+}
+.topnav-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px;
+  border-radius: 999px; border: 1.5px solid var(--border);
+  background: var(--card); color: var(--accent2);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  box-shadow: 0 4px 16px rgba(99,102,241,0.10);
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.topnav-btn:hover {
+  background: var(--accent); color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99,102,241,0.25);
+}
+.topnav-btn.active {
+  background: var(--grad-main); color: #fff;
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(99,102,241,0.28);
+}
+.topnav-btn .nb-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--correct); flex-shrink: 0;
+}
+
+/* ── Halaman Riwayat ─────────────────────────────── */
+#riwayat-page {
+  position: fixed; inset: 0; z-index: 9997;
+  overflow-y: auto;
+  display: none; opacity: 0;
+  transition: opacity 0.35s ease;
+  background: var(--bg);
+  padding-bottom: 60px;
+}
+#riwayat-page.visible { display: block; }
+#riwayat-page.show { opacity: 1; }
+
+/* Hero */
+.rw-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+  padding: 56px 20px 70px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.rw-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.rw-hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+.rw-hero-icon {
+  width: 80px; height: 80px; border-radius: 24px;
+  background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; margin: 0 auto 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+}
+.rw-hero h1 {
+  font-size: clamp(24px, 4vw, 38px); font-weight: 900; color: #fff;
+  margin-bottom: 8px; text-shadow: 0 2px 16px rgba(0,0,0,0.25);
+}
+.rw-hero p {
+  font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 500;
+}
+
+/* Summary cards */
+.rw-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px; margin-top: 28px;
+}
+.rw-sum-card {
+  background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 18px; padding: 18px 10px; text-align: center;
+}
+.rw-sum-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px; font-weight: 800; color: #fff; line-height: 1;
+}
+.rw-sum-lbl {
+  font-size: 11px; color: rgba(255,255,255,0.65);
+  text-transform: uppercase; letter-spacing: 1.2px;
+  margin-top: 6px; font-weight: 600;
+}
+.rw-sum-val.green { color: #34d399; }
+.rw-sum-val.red { color: #f87171; }
+.rw-sum-val.gold { color: #fbbf24; }
+
+/* Content area */
+.rw-content {
+  max-width: 800px; margin: -36px auto 0;
+  padding: 0 20px;
+  position: relative; z-index: 2;
+}
+
+/* Section label */
+.rw-section-label {
+  font-size: 11px; font-weight: 800; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 2px;
+  margin: 28px 0 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.rw-section-label::after {
+  content: ''; flex: 1; height: 1.5px;
+  background: linear-gradient(to right, var(--border), transparent);
+}
+
+/* Empty state */
+.rw-empty {
+  background: var(--card); border: 1.5px dashed var(--border);
+  border-radius: 20px; padding: 48px 24px; text-align: center;
+  margin: 20px 0;
+}
+.rw-empty-icon { font-size: 48px; margin-bottom: 14px; }
+.rw-empty-title { font-size: 17px; font-weight: 800; color: var(--accent2); margin-bottom: 6px; }
+.rw-empty-sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* Riwayat entry card */
+.rw-entry {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 22px 24px;
+  margin-bottom: 14px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  animation: fadeIn 0.4s ease both;
+  position: relative; overflow: hidden;
+}
+.rw-entry::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+.rw-entry.grade-a::before { background: linear-gradient(180deg, #10b981, #059669); }
+.rw-entry.grade-b::before { background: linear-gradient(180deg, #6366f1, #8b5cf6); }
+.rw-entry.grade-c::before { background: linear-gradient(180deg, #f59e0b, #f97316); }
+.rw-entry.grade-d::before { background: linear-gradient(180deg, #ef4444, #dc2626); }
+
+.rw-entry:hover { transform: translateX(3px); box-shadow: 0 8px 28px rgba(99,102,241,0.10); }
+
+.rw-entry-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.rw-entry-num {
+  width: 36px; height: 36px; border-radius: 12px; flex-shrink: 0;
+  background: var(--grad-main);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 800; color: #fff;
+}
+.rw-entry-title { flex: 1; }
+.rw-entry-title h3 { font-size: 14px; font-weight: 800; color: var(--accent2); margin-bottom: 2px; }
+.rw-entry-title p { font-size: 12px; color: var(--muted); }
+.rw-entry-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px; font-weight: 800;
+  background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.rw-entry-score.ok { background: var(--grad-green); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.rw-entry-score.no { background: linear-gradient(135deg, #ef4444, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* Stats bar dalam entry */
+.rw-entry-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin-bottom: 12px;
+}
+.rw-es-item {
+  background: var(--surface); border-radius: 12px; padding: 10px;
+  text-align: center;
+}
+.rw-es-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px; font-weight: 800; line-height: 1;
+}
+.rw-es-val.c { color: var(--correct); }
+.rw-es-val.w { color: var(--wrong); }
+.rw-es-val.s { color: var(--accent); }
+.rw-es-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; font-weight: 600; }
+
+/* Progress mini */
+.rw-entry-bar-wrap {
+  height: 6px; background: var(--surface); border-radius: 999px; overflow: hidden; margin-bottom: 10px;
+}
+.rw-entry-bar {
+  height: 100%; border-radius: 999px; transition: width 0.8s ease;
+}
+
+/* Grade badge */
+.rw-grade-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+}
+.rw-grade-badge.a { background: rgba(16,185,129,0.1); color: var(--correct); border: 1px solid rgba(16,185,129,0.25); }
+.rw-grade-badge.b { background: rgba(99,102,241,0.1); color: var(--accent); border: 1px solid rgba(99,102,241,0.2); }
+.rw-grade-badge.c { background: rgba(245,158,11,0.1); color: var(--accent4); border: 1px solid rgba(245,158,11,0.2); }
+.rw-grade-badge.d { background: rgba(239,68,68,0.1); color: var(--wrong); border: 1px solid rgba(239,68,68,0.2); }
+
+/* Timestamp */
+.rw-entry-time { font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+/* Footer actions */
+.rw-footer {
+  display: flex; justify-content: center; gap: 12px; margin-top: 28px;
+  flex-wrap: wrap;
+}
+.rw-footer-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 11px 22px; border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--card); color: var(--text);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.2s;
+}
+.rw-footer-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.rw-footer-btn.danger:hover { border-color: var(--wrong); color: var(--wrong); }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .rw-entry-stats { grid-template-columns: repeat(3, 1fr); }
+  #top-nav-bar { top: 10px; right: 10px; gap: 6px; }
+  .topnav-btn { padding: 7px 12px; font-size: 12px; }
+}
+
+/* ── Rekap semua sesi ────────────────────────────── */
+.rw-rekap-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 22px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(99,102,241,0.07);
+}
+.rw-rekap-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.rw-rekap-row:last-of-type { border-bottom: none; }
+.rw-rekap-row.belum { opacity: 0.5; }
+.rw-rekap-name {
+  flex: 1; font-size: 13px; font-weight: 700; color: var(--accent2);
+}
+.rw-rekap-stat {
+  font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace;
+}
+.rw-rekap-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px; font-weight: 800; min-width: 50px; text-align: right;
+}
+.rw-rekap-score.ok { color: var(--correct); }
+.rw-rekap-score.no { color: var(--wrong); }
+.rw-rekap-badge.belum {
+  font-size: 11px; color: var(--muted);
+  background: var(--surface); padding: 3px 10px; border-radius: 999px;
+}
+.rw-rekap-divider {
+  height: 1.5px; background: var(--border); margin: 14px 0;
+}
+.rw-rekap-total {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; font-size: 14px; font-weight: 600; color: var(--text);
+}
+.rw-rekap-total.big {
+  font-size: 16px; font-weight: 800; padding-top: 10px;
+}
+.rw-rekap-total .green {
+  font-family: 'JetBrains Mono', monospace; font-weight: 800;
+  color: var(--correct); font-size: 18px;
+}
+.rw-rekap-total .red {
+  font-family: 'JetBrains Mono', monospace; font-weight: 800;
+  color: var(--wrong); font-size: 18px;
+}
+.rw-rekap-total .gold {
+  font-family: 'JetBrains Mono', monospace; font-weight: 800;
+  color: var(--accent4); font-size: 22px;
+}
+
+/* Verdict */
+.rw-verdict {
+  text-align: center; font-size: 14px; font-weight: 800;
+  padding: 14px 16px; border-radius: 14px; margin-top: 14px; line-height: 1.5;
+}
+.rw-verdict.lolos {
+  background: rgba(16,185,129,0.10); color: var(--correct);
+  border: 1.5px solid rgba(16,185,129,0.25);
+}
+.rw-verdict.gagal {
+  background: rgba(239,68,68,0.08); color: var(--wrong);
+  border: 1.5px solid rgba(239,68,68,0.2);
+}
+
+/* ── Top nav bar — selalu di atas (z-index tinggi) ── */
+#top-nav-bar {
+  z-index: 999999 !important;
+}

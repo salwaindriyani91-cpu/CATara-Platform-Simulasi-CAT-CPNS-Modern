@@ -1,0 +1,57 @@
+/* ==================================================
+   css/finalscore.css
+   ================================================== */
+
+#finalscore-page {
+  display: none; position: fixed; inset: 0; z-index: 99999;
+  background: rgba(10,10,30,0.72); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center; padding: 20px;
+  animation: fadeIn 0.35s ease both;
+}
+#finalscore-page.visible { display: flex; }
+
+.fs-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 28px; padding: 40px 36px;
+  max-width: 540px; width: 100%;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+  animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1) both;
+}
+.fs-title {
+  text-align: center; font-size: 22px; font-weight: 900;
+  background: var(--grad-main); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; margin-bottom: 6px;
+}
+.fs-subtitle { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+
+.fs-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.fs-label { font-size: 13px; font-weight: 700; color: var(--accent2); min-width: 56px; }
+.fs-bar-wrap { flex: 1; height: 10px; background: var(--surface); border-radius: 999px; overflow: hidden; }
+.fs-bar { height: 100%; border-radius: 999px; transition: width 0.8s ease; }
+.fs-bar.s1 { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+.fs-bar.s2 { background: linear-gradient(90deg, #10b981, #059669); }
+.fs-bar.s3 { background: linear-gradient(90deg, #f59e0b, #f97316); }
+.fs-bar.s4 { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+.fs-val { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; min-width: 48px; text-align: right; }
+.fs-val.ok { color: var(--correct); }
+.fs-val.no { color: var(--wrong); }
+
+.fs-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.fs-total-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.fs-total-label { font-size: 15px; font-weight: 800; color: var(--accent2); }
+#fs-avg { font-family: 'JetBrains Mono', monospace; font-size: 42px; font-weight: 700; background: var(--grad-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.fs-verdict {
+  text-align: center; font-size: 17px; font-weight: 800;
+  padding: 18px 20px; border-radius: 16px; line-height: 1.5; margin-bottom: 24px;
+}
+.fs-verdict small { font-size: 13px; font-weight: 500; display: block; margin-top: 4px; }
+.fs-verdict.lolos { background: rgba(16,185,129,0.10); color: var(--correct); border: 1.5px solid rgba(16,185,129,0.3); }
+.fs-verdict.gagal { background: rgba(239,68,68,0.08); color: var(--wrong); border: 1.5px solid rgba(239,68,68,0.2); }
+
+.fs-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}

@@ -1,0 +1,169 @@
+/* ==================================================
+   css/login.css  —  Halaman Login (desain baru)
+   ================================================== */
+
+#login-page {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  transition: opacity 0.4s ease;
+  overflow: hidden;
+}
+#login-page.hidden { opacity: 0; pointer-events: none; }
+
+/* Gradient background dinamis */
+#login-page::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 20% 20%, rgba(99,102,241,0.25) 0%, transparent 55%),
+              radial-gradient(ellipse at 80% 80%, rgba(139,92,246,0.2) 0%, transparent 50%),
+              radial-gradient(ellipse at 60% 10%, rgba(16,185,129,0.1) 0%, transparent 40%),
+              var(--bg);
+}
+
+/* Lingkaran dekoratif */
+#login-page::after {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(99,102,241,0.12);
+  top: -120px; right: -120px;
+}
+
+.login-card {
+  position: relative; z-index: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  padding: 48px 44px;
+  width: 100%; max-width: 430px;
+  box-shadow: 0 40px 100px rgba(99,102,241,0.15), 0 0 0 1px rgba(99,102,241,0.08);
+  animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+/* Logo dengan animasi float */
+.login-logo {
+  width: 76px; height: 76px;
+  background: var(--grad-main);
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+  margin: 0 auto 24px;
+  box-shadow: 0 16px 40px rgba(99,102,241,0.35);
+  animation: float 3s ease-in-out infinite;
+  position: relative;
+}
+.login-logo::after {
+  content: '';
+  position: absolute; inset: -8px;
+  border-radius: 30px;
+  border: 2px solid rgba(99,102,241,0.2);
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.login-title {
+  font-size: 30px; font-weight: 900;
+  background: var(--grad-main);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-align: center; margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  text-align: center; color: var(--muted);
+  font-size: 13.5px; font-weight: 500;
+  margin-bottom: 32px; line-height: 1.65;
+}
+
+/* Chip info di atas form */
+.login-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.18);
+  border-radius: 999px; padding: 5px 14px;
+  font-size: 12px; font-weight: 700;
+  color: var(--accent); margin: 0 auto 28px;
+  display: flex; justify-content: center;
+}
+
+.login-field { margin-bottom: 18px; }
+.login-field label {
+  display: block; font-size: 11.5px; font-weight: 700;
+  color: var(--muted); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 8px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.login-field input {
+  width: 100%; padding: 14px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px; font-size: 15px;
+  background: var(--surface); color: var(--text);
+  outline: none; transition: all 0.2s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.login-field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+  background: var(--card);
+}
+
+.login-btn {
+  width: 100%; padding: 16px;
+  background: var(--grad-main);
+  color: #fff; border: none; border-radius: 14px;
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  margin-top: 10px; transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  box-shadow: 0 10px 28px rgba(99,102,241,0.35);
+  letter-spacing: 0.3px;
+}
+.login-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(99,102,241,0.4); }
+.login-btn:active { transform: translateY(0); }
+
+.login-error {
+  color: var(--wrong); font-size: 13px; font-weight: 600;
+  text-align: center; margin-top: 12px; display: none;
+  padding: 10px 14px; background: rgba(239,68,68,0.08);
+  border-radius: 10px; border: 1px solid rgba(239,68,68,0.2);
+}
+.login-error.show { display: block; animation: fadeIn 0.3s ease both; }
+
+/* Divider dengan teks */
+.login-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 20px 0 16px; color: var(--muted); font-size: 12px;
+}
+.login-divider::before, .login-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* Info kredensial default */
+.login-hint {
+  background: rgba(16,185,129,0.07);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 12px; padding: 12px 16px;
+  font-size: 12.5px; font-weight: 600;
+  color: var(--accent3); text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.3px;
+}
+
+.login-badge {
+  display: flex; align-items: center; gap: 8px;
+  justify-content: center; margin-top: 22px;
+  font-size: 11.5px; color: var(--muted);
+}
+
+/* ── Tombol Google OAuth ──────────────────────────── */
+.google-btn-wrap {
+  width: 100%;
+  display: flex; justify-content: center;
+  margin: 4px 0 8px;
+  min-height: 44px;
+}
+/* Override iframe Google agar penuh */
+.google-btn-wrap > div,
+.google-btn-wrap iframe {
+  width: 100% !important;
+}

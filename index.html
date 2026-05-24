@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TKB CPNS – Pranata Komputer</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/quiz.css">
+  <link rel="stylesheet" href="css/result.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/scorebadge.css">
+  <link rel="stylesheet" href="css/finalscore.css">
+  <link rel="stylesheet" href="css/riwayat.css">
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- ============================================================
+       TOP NAV BAR (kanan atas) — Dashboard & Riwayat
+       ============================================================ -->
+  <div id="top-nav-bar" style="display:none;">
+    <button class="topnav-btn active" id="topnav-dashboard" onclick="showDashboard()">
+      🏠 Dashboard
+    </button>
+    <button class="topnav-btn" id="topnav-riwayat" onclick="showRiwayat()">
+      📋 Riwayat
+    </button>
+    <img id="topnav-avatar" src="" alt="avatar"
+      style="display:none; width:34px; height:34px; border-radius:50%;
+             border:2px solid var(--accent); object-fit:cover; cursor:pointer;"
+      title="Klik untuk logout" onclick="doLogout()">
+  </div>
+
+
+  <!-- ============================================================
+       HALAMAN LOGIN
+       ============================================================ -->
+  <div id="login-page">
+    <div class="login-card">
+      <div class="login-logo">🎓</div>
+      <div class="login-title">Ujian CPNS</div>
+      <div class="login-subtitle">
+        Pranata Komputer · TKB<br>
+        Persiapkan dirimu, masuk untuk mulai latihan!
+      </div>
+
+      <div class="login-field">
+        <label>Username</label>
+        <input type="text" id="login-user" placeholder="Masukkan username"
+          autocomplete="username" onkeydown="if(event.key==='Enter') doLogin()">
+      </div>
+
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="login-pass" placeholder="Masukkan password"
+          autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()">
+      </div>
+
+      <button class="login-btn" onclick="doLogin()">🚀 Masuk ke Sistem Ujian</button>
+      <div class="login-error" id="login-error">❌ Username atau password salah. Coba lagi.</div>
+
+      <!-- Divider OR -->
+      <div class="login-divider">atau masuk dengan</div>
+
+      <!-- Tombol Google -->
+      <div id="google-btn-wrap" class="google-btn-wrap"></div>
+
+      <!-- Script init Google One Tap -->
+      <script>
+        window.addEventListener('load', function() {
+          if (window.google && google.accounts) {
+            google.accounts.id.initialize({
+              // ⚠️ GANTI dengan Client ID Google milikmu dari console.cloud.google.com
+              client_id: '360934545026-ndgb15apopr05es475gh0i3i5kj4npi9.apps.googleusercontent.com',
+              callback: handleGoogleLogin,
+              auto_select: false,
+              cancel_on_tap_outside: true,
+              ux_mode: 'popup'
+            });
+            google.accounts.id.renderButton(
+              document.getElementById('google-btn-wrap'),
+              { theme: 'outline', size: 'large', width: '100%', locale: 'id', text: 'signin_with', shape: 'rectangular' }
+            );
+          }
+        });
+      </script>
+
+      <div class="login-divider">Kredensial default</div>
+      <div class="login-hint">👤 anggota &nbsp;·&nbsp; 🔑 cpns</div>
+
+      <div class="login-badge">
+        🔒 Sistem Ujian Aman &nbsp;·&nbsp; 4 Sesi · 120 Soal
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       HALAMAN DASHBOARD
+       ============================================================ -->
+  <div id="dashboard-page">
+
+    <!-- HERO SECTION -->
+    <div class="dash-hero-bg">
+      <div class="dashboard-inner">
+        <div class="dashboard-header">
+          <div class="logo-big">🎓</div>
+          <div class="dash-welcome" id="dash-welcome">👋 Selamat Datang, Anggota CPNS!</div>
+          <div class="dash-motivasi">✨ Semangat! Semoga ujianmu lancar dan berhasil lolos 🏆</div>
+          <h2>Dashboard Ujian CPNS</h2>
+          <p>Pilih sesi ujian yang ingin dikerjakan — TKB Pranata Komputer</p>
+
+          <!-- Quick Stats -->
+          <div class="dash-quick-stats">
+            <div class="dqs-item">
+              <div class="dqs-val">4</div>
+              <div class="dqs-lbl">Sesi</div>
+            </div>
+            <div class="dqs-item">
+              <div class="dqs-val">120</div>
+              <div class="dqs-lbl">Soal</div>
+            </div>
+            <div class="dqs-item">
+              <div class="dqs-val" id="dqs-selesai">0</div>
+              <div class="dqs-lbl">Selesai</div>
+            </div>
+            <div class="dqs-item">
+              <div class="dqs-val" id="dqs-avg">—</div>
+              <div class="dqs-lbl">Rata-rata</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KONTEN KARTU -->
+    <div class="dash-content">
+
+      <!-- Tips harian -->
+      <div class="dash-tips-box" id="dash-tips-box">
+        <div class="dash-tips-icon">💡</div>
+        <div>
+          <div class="dash-tips-title">Tips Hari Ini</div>
+          <div class="dash-tips-text" id="dash-tips-text">Membaca soal dengan teliti lebih penting dari menjawab cepat. Kelola waktu dan tetap tenang!</div>
+        </div>
+      </div>
+
+      <div class="dash-section-label">Pilih Sesi Ujian</div>
+
+      <div class="session-grid">
+
+        <div class="session-card" onclick="enterSession(0)">
+          <div class="sc-top">
+            <div class="sc-icon s1">📚</div>
+            <div class="sc-info">
+              <h3>Sesi 1 — Materi Dasar</h3>
+              <p>Algoritma, Struktur Data, Jaringan Komputer, Basis Data, Sistem Operasi, Keamanan Informasi, dan Cloud Computing.</p>
+            </div>
+            <span id="dash-score-0" class="sc-score-badge"></span>
+          </div>
+          <div class="sc-progress-wrap"><div class="sc-progress-bar s1" id="sc-prog-0" style="width:0%"></div></div>
+          <div class="sc-meta">
+            <span class="sc-tag soal">📝 30 Soal</span>
+            <span class="sc-tag topik">📌 9 Topik</span>
+          </div>
+          <button class="sc-btn">Mulai Sesi 1 →</button>
+        </div>
+
+        <div class="session-card" onclick="enterSession(1)">
+          <div class="sc-top">
+            <div class="sc-icon s2">📖</div>
+            <div class="sc-info">
+              <h3>Sesi 2 — Materi Lanjutan</h3>
+              <p>Pemrograman Web, Kriptografi, SPBE, Basis Data Lanjut, AI & Machine Learning, Pengujian PL, dan Jaringan Komputer.</p>
+            </div>
+            <span id="dash-score-1" class="sc-score-badge"></span>
+          </div>
+          <div class="sc-progress-wrap"><div class="sc-progress-bar s2" id="sc-prog-1" style="width:0%"></div></div>
+          <div class="sc-meta">
+            <span class="sc-tag soal">📝 30 Soal</span>
+            <span class="sc-tag topik">📌 7 Topik</span>
+          </div>
+          <button class="sc-btn">Mulai Sesi 2 →</button>
+        </div>
+
+        <div class="session-card" onclick="enterSession(2)">
+          <div class="sc-top">
+            <div class="sc-icon s3">🔬</div>
+            <div class="sc-info">
+              <h3>Sesi 3 — Spesialisasi</h3>
+              <p>DevOps, Keamanan Aplikasi, IPv6, Sistem Basis Data Terdistribusi, Microservices, dan Kebijakan TI Pemerintah.</p>
+            </div>
+            <span id="dash-score-2" class="sc-score-badge"></span>
+          </div>
+          <div class="sc-progress-wrap"><div class="sc-progress-bar s3" id="sc-prog-2" style="width:0%"></div></div>
+          <div class="sc-meta">
+            <span class="sc-tag soal">📝 30 Soal</span>
+            <span class="sc-tag topik">📌 6 Topik</span>
+          </div>
+          <button class="sc-btn">Mulai Sesi 3 →</button>
+        </div>
+
+        <div class="session-card" onclick="enterSession(3)">
+          <div class="sc-top">
+            <div class="sc-icon s4">🧪</div>
+            <div class="sc-info">
+              <h3>Sesi 4 — Tingkat Lanjut</h3>
+              <p>Pemrograman Fungsional, Blockchain, Quantum Computing, Automata, Kompilasi, dan Regulasi Keamanan Siber.</p>
+            </div>
+            <span id="dash-score-3" class="sc-score-badge"></span>
+          </div>
+          <div class="sc-progress-wrap"><div class="sc-progress-bar s4" id="sc-prog-3" style="width:0%"></div></div>
+          <div class="sc-meta">
+            <span class="sc-tag soal">📝 30 Soal</span>
+            <span class="sc-tag topik">📌 7 Topik</span>
+          </div>
+          <button class="sc-btn">Mulai Sesi 4 →</button>
+        </div>
+
+      </div><!-- /session-grid -->
+
+      <div class="dash-logout-wrap">
+        <button class="dash-logout-btn" onclick="doLogout()">🚪 Keluar dari Sistem</button>
+      </div>
+
+    </div><!-- /dash-content -->
+  </div><!-- /dashboard-page -->
+
+
+  <!-- ============================================================
+       HALAMAN UTAMA UJIAN
+       ============================================================ -->
+  <div class="wrapper" id="quiz-wrapper">
+    <div class="app-grid">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="session-selector">
+          <div class="session-label">Pilih Sesi</div>
+          <div class="session-btns">
+            <button class="session-btn active" id="sbtn-0" onclick="switchSession(0)">📚 Sesi 1</button>
+            <button class="session-btn"        id="sbtn-1" onclick="switchSession(1)">📖 Sesi 2</button>
+            <button class="session-btn"        id="sbtn-2" onclick="switchSession(2)">🔬 Sesi 3</button>
+            <button class="session-btn"        id="sbtn-3" onclick="switchSession(3)">🧪 Sesi 4</button>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat"><div class="stat-val"       id="s-current">1</div> <div class="stat-label">Soal ke</div></div>
+          <div class="stat"><div class="stat-val green" id="s-correct">0</div> <div class="stat-label">Benar</div></div>
+          <div class="stat"><div class="stat-val"       id="s-average">0%</div><div class="stat-label">Rata-rata</div></div>
+          <div class="stat"><div class="stat-val red"   id="s-wrong">0</div>   <div class="stat-label">Salah</div></div>
+          <div class="stat"><div class="stat-val muted" id="s-remain">30</div> <div class="stat-label">Sisa</div></div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>Progress</span>
+            <span id="progress-pct">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" id="progress" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <button class="btn btn-primary" id="start-button-aside" onclick="startQuiz()" style="font-size:14px;padding:12px 22px;width:100%">
+            ▶ Mulai / Lanjutkan
+          </button>
+        </div>
+
+        <div style="text-align:center; margin-top:6px; font-size:12px; color:var(--muted)">
+          💾 Progress otomatis disimpan
+        </div>
+
+        <div style="text-align:center; margin-top:4px;">
+          <button onclick="backToDashboard()" style="background:none;border:none;font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;">
+            ← Kembali ke Dashboard
+          </button>
+        </div>
+      </aside>
+
+      <!-- KONTEN UTAMA -->
+      <main class="main">
+
+        <!-- Header -->
+        <div class="header">
+          <div class="header-top">
+            <div class="logo-box">🎓</div>
+            <div class="header-labels">
+              <div class="label-top" id="header-sesi-label">TKB CPNS · Sesi 1</div>
+              <h1>Pranata Komputer</h1>
+            </div>
+            <button class="theme-switch" id="theme-toggle" onclick="toggleTheme()">🌙 Mode Gelap</button>
+          </div>
+          <p class="header-desc" id="header-desc">
+            Paket lengkap 4 sesi — 120 soal pilihan ganda Teknik Informatika untuk persiapan CPNS
+            Jabatan Fungsional Pranata Komputer.
+          </p>
+        </div>
+
+        <!-- INTRO -->
+        <div id="intro">
+          <div class="intro-card">
+            <div class="intro-hero">
+              <div class="intro-icon-box">📋</div>
+              <div class="intro-txt">
+                <h2 id="intro-title">Paket Soal Sesi 1 — Materi Dasar</h2>
+                <p id="intro-desc">Sesi pertama mencakup 30 soal dasar Teknik Informatika.</p>
+              </div>
+            </div>
+            <div class="info-row">
+              <div class="info-item"><div class="info-val">30</div><div class="info-lbl">Total Soal</div></div>
+              <div class="info-item"><div class="info-val" id="intro-topics-count">9</div><div class="info-lbl">Topik Materi</div></div>
+              <div class="info-item"><div class="info-val">100</div><div class="info-lbl">Skor Maks</div></div>
+            </div>
+            <div class="topics" id="intro-topics"></div>
+            <div id="resume-note" style="text-align:center;margin-bottom:16px;color:var(--accent3);font-size:14px;display:none;">
+              ✅ Progres sebelumnya ditemukan. Kamu dapat melanjutkan ujian.
+            </div>
+            <div style="text-align:center">
+              <button class="btn btn-primary" id="start-button" onclick="startQuiz()" style="font-size:15px;padding:15px 48px;">
+                🚀 Mulai Ujian →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quiz" style="display:none;">
+          <div id="question-area"></div>
+          <div class="actions">
+            <button type="button" class="btn btn-warning"   id="btn-check"  onclick="checkAnswer()"  disabled>⚠️ Koreksi Jawaban</button>
+            <button type="button" class="btn btn-secondary" id="btn-exp"    onclick="toggleExp()"    style="display:none">📖 Pembahasan</button>
+            <button type="button" class="btn btn-secondary" id="btn-finish" onclick="finishQuiz()">🛑 Selesai</button>
+            <button type="button" class="btn btn-primary"   id="btn-next"   onclick="nextQuestion()" disabled>Lanjut →</button>
+          </div>
+        </div>
+
+        <!-- HASIL / RESULT -->
+        <div class="result-screen" id="result">
+          <div class="result-header">
+            <div class="score-display" id="score-pct">0%</div>
+            <div class="score-label">Nilai Akhir Sesi</div>
+            <div class="result-grade" id="result-grade">—</div>
+          </div>
+          <div class="result-stats">
+            <div class="rs-item"><div class="rs-val" id="r-correct" style="color:var(--correct)">0</div><div class="rs-lbl">Benar</div></div>
+            <div class="rs-item"><div class="rs-val" id="r-wrong"   style="color:var(--wrong)">0</div>  <div class="rs-lbl">Salah</div></div>
+            <div class="rs-item"><div class="rs-val" id="r-score"   style="color:var(--accent)">0</div> <div class="rs-lbl">Skor</div></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-secondary" onclick="restart()">🔄 Ulangi Sesi Ini</button>
+            <button class="btn btn-primary"   onclick="scrollToReview()">📋 Lihat Review</button>
+            <button class="btn btn-primary"
+              onclick="showRiwayat()"
+              style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 6px 20px rgba(16,185,129,0.3)">
+              📋 Lihat Riwayat
+            </button>
+          </div>
+          <div class="result-nav">
+            <button class="btn-nav" onclick="backToDashboard()">🏠 Kembali ke Dashboard</button>
+            <button class="btn-nav danger" onclick="doLogout()">🚪 Logout</button>
+          </div>
+          <div class="review-section" id="review-section">
+            <div class="review-header">▸ Rangkuman Seluruh Jawaban</div>
+            <div id="review-list"></div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       HALAMAN RIWAYAT PENGERJAAN
+       ============================================================ -->
+  <div id="riwayat-page">
+
+    <!-- Hero -->
+    <div class="rw-hero">
+      <div class="rw-hero-inner">
+        <div class="rw-hero-icon">📋</div>
+        <h1>Riwayat Pengerjaan</h1>
+        <p>Rekap semua hasil ujian TKB CPNS Pranata Komputer</p>
+
+        <!-- Summary 4 kartu -->
+        <div class="rw-summary-grid">
+          <div class="rw-sum-card">
+            <div class="rw-sum-val green" id="rw-sum-benar">—</div>
+            <div class="rw-sum-lbl">✅ Benar</div>
+          </div>
+          <div class="rw-sum-card">
+            <div class="rw-sum-val red" id="rw-sum-salah">—</div>
+            <div class="rw-sum-lbl">❌ Salah</div>
+          </div>
+          <div class="rw-sum-card">
+            <div class="rw-sum-val" id="rw-sum-total">—</div>
+            <div class="rw-sum-lbl">📝 Dikerjakan</div>
+          </div>
+          <div class="rw-sum-card">
+            <div class="rw-sum-val gold" id="rw-sum-avg">—</div>
+            <div class="rw-sum-lbl">📊 Rata-rata</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Konten -->
+    <div class="rw-content">
+
+      <!-- Rekap per sesi (muncul setelah ada data) -->
+      <div id="rw-rekap" style="display:none;"></div>
+
+      <div class="rw-section-label">Riwayat Per Pengerjaan</div>
+      <div id="rw-list"></div>
+
+      <div class="rw-footer">
+        <button class="rw-footer-btn" onclick="showDashboard()">🏠 Dashboard</button>
+        <button class="rw-footer-btn danger" onclick="doResetRiwayat()">🗑 Hapus Riwayat</button>
+        <button class="rw-footer-btn danger" onclick="doLogout()">🚪 Logout</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       POPUP SCORE AKHIR
+       ============================================================ -->
+  <div id="finalscore-page">
+    <div class="fs-card">
+      <div class="fs-title">🏆 Score Akhir Semua Sesi</div>
+      <div class="fs-subtitle">Rekap nilai dari 4 sesi ujian TKB CPNS Pranata Komputer</div>
+      <div id="fs-rows"></div>
+      <hr class="fs-divider">
+      <div class="fs-total-row">
+        <span class="fs-total-label">Rata-rata Keseluruhan</span>
+        <span id="fs-avg">—</span>
+      </div>
+      <div id="fs-verdict" class="fs-verdict">—</div>
+      <div class="fs-actions">
+        <button class="btn btn-secondary" onclick="closeFinalScore()">✖ Tutup</button>
+        <button class="btn btn-primary"   onclick="backToDashboard(); closeFinalScore()">🏠 Dashboard</button>
+        <button class="btn btn-secondary" onclick="resetAllScores()" style="color:var(--wrong)">🗑 Reset Semua</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JS — urutan penting -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/session.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/result.js"></script>
+  <script src="js/finalscore.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/riwayat.js"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+</html>
